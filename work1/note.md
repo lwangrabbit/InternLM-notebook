@@ -2,4 +2,4 @@
 
 
 
-![model_apply](/Users/lwangrabbbit/go/src/github.com/lwangrabbit/InternLM-notebook/images/model_apply.png)
+![model_apply](../images/model_apply.png)
