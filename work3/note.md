@@ -27,3 +27,25 @@
 ![](../images/RAG-流程示例.png)
 
 ![](../images/RAG_vs_finetuning.png)
+
+
+
+茴香豆在开发机上的部署：
+
+* 下载基础模型
+  * internlm2-chat-7b
+  * BCE模型
+* 构建向量数据库 
+  * Faiss-gpu
+* 运行茴香豆
+  * 向茴香豆提问 
+
+
+
+![](../images/茴香豆-创建向量库.png)
+
+![](../images/茴香豆-运行.png)
+
+
+
+![](../images/茴香豆-应用-如何部署到微信.png)
