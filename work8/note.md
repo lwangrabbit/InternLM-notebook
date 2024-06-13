@@ -114,5 +114,38 @@ SFT: Supervised Finetuning
 
 
 
+使用小红书的数据，对internlm_7b模型进行微调：
+
+```
+# 1.训练
+xtuner train /root/ft-xhs/config/internlm2_7b_qlora_xhs_e3.py --work-dir /root/ft-xhs/train --deepspeed deepspeed_zero2
+
+# 2.pt转hugggingface
+mkdir -p /root/ft-xhs/huggingface
+xtuner convert pth_to_hf /root/ft-xhs/train/internlm2_7b_qlora_xhs_e3.py /root/ft-xhs/train/iter_96.pth /root/ft-xhs/huggingface
+
+# 3.将 HuggingFace adapter 合并到大语言模型
+mkdir -p /root/ft-xhs/final_model
+export MKL_SERVICE_FORCE_INTEL=1
+xtuner convert merge /root/ft-xhs/model /root/ft-xhs/huggingface /root/ft-xhs/final_model
+
+# 4.与合并后的模型对话
+xtuner chat /root/ft-xhs/final_model --prompt-template internlm2_chat
+```
+
+![](./小红书-微调-xtuner.png)
+
+使用web-demo部署微调后的大模型：
+
+```
+# 1.部署
+streamlit run /root/ft-xhs/web_demo/InternLM/chat/web_demo.py --server.address 127.0.0.1 --server.port 6006
+
+# 2.端口映射
+ssh -CNg -L 6006:127.0.0.1:6006 root@ssh.intern-ai.org.cn -p 34978
+```
+
+![](./小红书-微调-xtuner-webdemo.png)
+
 
 
