@@ -147,5 +147,27 @@ ssh -CNg -L 6006:127.0.0.1:6006 root@ssh.intern-ai.org.cn -p 34978
 
 ![](./小红书-微调-xtuner-webdemo.png)
 
+使用lmdeploy部署微调后的模型：
 
+```
+# 1. 部署api-server
+lmdeploy serve api_server \
+>     /root/ft-xhs/final_model \
+>     --model-name internlm-7b-chat-xhs \
+>     --model-format hf \
+>     --quant-policy 0 \
+>     --server-name 0.0.0.0 \
+>     --server-port 23333 \
+>     --tp 1
+
+# 2. 部署gradio前端
+lmdeploy serve gradio http://localhost:23333 \
+    --server-name 0.0.0.0 \
+    --server-port 6006
+    
+# 4. 配置ssh端口映射
+ssh -CNg -L 6006:127.0.0.1:6006 root@ssh.intern-ai.org.cn -p 34978
+```
+
+![](./小红书-微调-xtuner-gradio.png)
 
